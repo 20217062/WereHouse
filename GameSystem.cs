@@ -21,6 +21,8 @@ public class GameSystem : MonoBehaviour
     public int Carsor; //カーソルの配列の位置
     bool Fin = true; //終了フラグ
     public int Number = 0; //配列の値
+    int Undo = default;
+    public static int Walk = default;
     void Start()
     {
         Seed_copy = Seed;
@@ -38,12 +40,16 @@ public class GameSystem : MonoBehaviour
                     Main_Object[Rethu_y - 1, Rethu_x] += 4;
                     Rethu_y -= 1;
                     Carsor -= G_Length;
+                    Undo = 1;
+                    Walk++;
                     break;
                 case 3:
                     Main_Object[Rethu_y, Rethu_x] -= 4;
                     Main_Object[Rethu_y - 1, Rethu_x] += 4;
                     Rethu_y -= 1;
                     Carsor -= G_Length;
+                    Undo = 1;
+                    Walk++;
                     break;
                 case 2:
                     if (Main_Object[Rethu_y - 2,Rethu_x] == 0 || Main_Object[Rethu_y - 2, Rethu_x] == 3)
@@ -53,6 +59,8 @@ public class GameSystem : MonoBehaviour
                         Main_Object[Rethu_y - 2, Rethu_x] += 2;
                         Rethu_y -= 1;
                         Carsor -= G_Length;
+                        Undo = 1;
+                        Walk++;
                     }
                     break;
                 case 5:
@@ -63,6 +71,8 @@ public class GameSystem : MonoBehaviour
                         Main_Object[Rethu_y - 2, Rethu_x] += 2;
                         Rethu_y -= 1;
                         Carsor -= G_Length;
+                        Undo = 1;
+                        Walk++;
                     }
                     break;
                 default:
@@ -79,12 +89,16 @@ public class GameSystem : MonoBehaviour
                     Main_Object[Rethu_y, Rethu_x - 1] += 4;
                     Rethu_x -= 1;
                     Carsor -= 1;
+                    Undo = 2;
+                    Walk++;
                     break;
                 case 3:
                     Main_Object[Rethu_y, Rethu_x] -= 4;
                     Main_Object[Rethu_y, Rethu_x - 1] += 4;
                     Rethu_x -= 1;
                     Carsor -= 1;
+                    Undo = 2;
+                    Walk++;
                     break;
                 case 2:
                     if (Main_Object[Rethu_y, Rethu_x - 2] == 0 || Main_Object[Rethu_y, Rethu_x - 2] == 3)
@@ -94,6 +108,8 @@ public class GameSystem : MonoBehaviour
                         Main_Object[Rethu_y, Rethu_x - 2] += 2;
                         Rethu_x -= 1;
                         Carsor -= 1;
+                        Undo = 2;
+                        Walk++;
                     }
                     break;
                 case 5:
@@ -104,6 +120,8 @@ public class GameSystem : MonoBehaviour
                         Main_Object[Rethu_y, Rethu_x - 2] += 2;
                         Rethu_x -= 1;
                         Carsor -= 1;
+                        Undo = 2;
+                        Walk++;
                     }
                     break;
                 default:
@@ -120,12 +138,16 @@ public class GameSystem : MonoBehaviour
                     Main_Object[Rethu_y + 1, Rethu_x] += 4;
                     Rethu_y += 1;
                     Carsor += G_Length;
+                    Undo = 3;
+                    Walk++;
                     break;
                 case 3:
                     Main_Object[Rethu_y, Rethu_x] -= 4;
                     Main_Object[Rethu_y + 1, Rethu_x] += 4;
                     Rethu_y += 1;
                     Carsor += G_Length;
+                    Undo = 3;
+                    Walk++;
                     break;
                 case 2:
                     if (Main_Object[Rethu_y + 2, Rethu_x] == 0 || Main_Object[Rethu_y + 2, Rethu_x] == 3)
@@ -135,6 +157,8 @@ public class GameSystem : MonoBehaviour
                         Main_Object[Rethu_y + 2, Rethu_x] += 2;
                         Rethu_y += 1;
                         Carsor += G_Length;
+                        Undo = 3;
+                        Walk++;
                     }
                     break;
                 case 5:
@@ -145,6 +169,8 @@ public class GameSystem : MonoBehaviour
                         Main_Object[Rethu_y + 2, Rethu_x] += 2;
                         Rethu_y += 1;
                         Carsor += G_Length;
+                        Undo = 3;
+                        Walk++;
                     }
                     break;
                 default:
@@ -161,12 +187,16 @@ public class GameSystem : MonoBehaviour
                     Main_Object[Rethu_y, Rethu_x + 1] += 4;
                     Rethu_x += 1;
                     Carsor += 1;
+                    Undo = 4;
+                    Walk++;
                     break;
                 case 3:
                     Main_Object[Rethu_y, Rethu_x] -= 4;
                     Main_Object[Rethu_y, Rethu_x + 1] += 4;
                     Rethu_x += 1;
                     Carsor += 1;
+                    Undo = 4;
+                    Walk++;
                     break;
                 case 2:
                     if (Main_Object[Rethu_y, Rethu_x + 2] == 0 || Main_Object[Rethu_y, Rethu_x + 2] == 3)
@@ -176,6 +206,8 @@ public class GameSystem : MonoBehaviour
                         Main_Object[Rethu_y, Rethu_x + 2] += 2;
                         Rethu_x += 1;
                         Carsor += 1;
+                        Undo = 4;
+                        Walk++;
                     }
                     break;
                 case 5:
@@ -186,6 +218,8 @@ public class GameSystem : MonoBehaviour
                         Main_Object[Rethu_y, Rethu_x + 2] += 2;
                         Rethu_x += 1;
                         Carsor += 1;
+                        Undo = 4;
+                        Walk++;
                     }
                     break;
                 default:
@@ -197,11 +231,13 @@ public class GameSystem : MonoBehaviour
         {
             StartArrangement();
         }
+
     }
     void StartArrangement() //スタートの処理
     {
         Seed = Seed_copy;
         Number = 0;
+        Walk = 0;
         for (int i = 0; i < G_Length; i++)
         {
             for (int j = 0; j < G_Width; j++)
